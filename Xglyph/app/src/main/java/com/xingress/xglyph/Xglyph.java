@@ -7,7 +7,6 @@ package com.xingress.xglyph;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookConstructor;
@@ -21,15 +20,6 @@ public class Xglyph implements IXposedHookLoadPackage {
         }
 
         XposedBridge.log("found the ingress started: " + loadPackageParam.packageName);
-
-        final Class<?> lg = XposedHelpers.findClass("o.lg", loadPackageParam.classLoader);
-
-        findAndHookMethod("com.nianticproject.ingress.gameentity.components.DefaultActionRange", loadPackageParam.classLoader, "inRange", lg, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                param.setResult(Boolean.TRUE);
-            }
-        });
 
         findAndHookMethod("com.nianticproject.ingress.common.utility.Turing", loadPackageParam.classLoader, "g", String.class, new XC_MethodHook() {
             @Override

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Igress Glyph助手</string>
+    <string name="descption">你只需要任意完成小游戏图案，最后都将帮你计算出正确的图案。</string>
+</resources>

@@ -1,7 +1,7 @@
 package com.xingress.xglyph;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by xfunx on 15/8/26.
@@ -66,7 +66,31 @@ public class IngressGlyph {
                 real.append(tmp.charAt(i));
             }
         }
-        return real.toString();
+
+        Random random = new Random(System.currentTimeMillis());
+        int r = random.nextInt(10);
+//        System.out.println(r);
+        String conver;
+        if (r<5) {
+            conver = new StringBuilder(real.toString()).reverse().toString();
+        }else{
+            conver = real.toString();
+        }
+//        System.out.println(conver);
+        String begin = conver.substring(0,1);
+        String end = conver.substring(conver.length() - 1, conver.length());
+//        System.out.println("the begin is :" + begin);
+//        System.out.println("the end is :" + end);
+        if (begin.equals(end)) {
+            int m = random.nextInt(conver.length());
+//            System.out.println(m);
+            String a;
+            String b;
+            a= conver.substring(0,m);
+            b= conver.substring(m, conver.length()-1);
+            conver = new StringBuilder(b).append(a).append(conver.substring(m,m+1)).toString();
+        }
+        return conver;
     }
 
     private static double getdouble(float a) {

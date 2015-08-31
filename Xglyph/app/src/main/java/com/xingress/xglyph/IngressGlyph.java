@@ -8,7 +8,7 @@ import java.util.Random;
  */
 public class IngressGlyph {
 
-
+    public static boolean ready = false;
     public static List glyphSequence = new ArrayList();
     //                                 a         b         c          d           e          f           g         h         i           j          k
     private static Double[] pub = {0.0, 1.0, 0.8, 0.4, 0.8, -0.5, 0.0, -1.0, -0.8, -0.5, -0.8, 0.4, -0.4, 0.2, 0.4, 0.2, 0.4, -0.2, -0.4, -0.2, 0.0, 0.0};

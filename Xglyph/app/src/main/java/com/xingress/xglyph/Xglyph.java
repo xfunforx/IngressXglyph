@@ -56,9 +56,9 @@ public class Xglyph implements IXposedHookLoadPackage {
         findAndHookConstructor("com.nianticproject.ingress.glyph.Glyph", loadPackageParam.classLoader, String.class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                String fuck = (String) param.args[0].toString();
+                String oldglyph = (String) param.args[0].toString();
                 param.args[0] = IngressGlyph.glyphSequence.get(0).toString();
-                XposedBridge.log("mylog: set the glyph :>>" + fuck + "== to new glyph==" + IngressGlyph.glyphSequence.get(0).toString());
+                XposedBridge.log("mylog: set the glyph :>>" + oldglyph + "== to new glyph==" + IngressGlyph.glyphSequence.get(0).toString());
             }
 
             @Override

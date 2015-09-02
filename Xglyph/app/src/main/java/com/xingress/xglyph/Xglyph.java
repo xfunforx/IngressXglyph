@@ -57,8 +57,17 @@ public class Xglyph implements IXposedHookLoadPackage {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 String oldglyph = (String) param.args[0].toString();
-                param.args[0] = IngressGlyph.glyphSequence.get(0).toString();
-                XposedBridge.log("mylog: set the glyph :>>" + oldglyph + "== to new glyph==" + IngressGlyph.glyphSequence.get(0).toString());
+//                // FIXME: 15/9/2 glyph "imperfect"
+                String tmptlyph = IngressGlyph.glyphSequence.get(0).toString();
+                if (tmptlyph.equals("khkjkgj"))
+                {
+                    tmptlyph ="kgjkhj";
+                }
+                if (tmptlyph.equals("jgkjkhk")){
+                    tmptlyph ="jhkjgk";
+                }
+                param.args[0] =tmptlyph;
+                XposedBridge.log("mylog: set the glyph :>>" + oldglyph + "== to new glyph==" + tmptlyph);
             }
 
             @Override

@@ -6,6 +6,7 @@ package com.xingress.xglyph;
 import java.util.List;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
@@ -15,7 +16,7 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 public class Xglyph implements IXposedHookLoadPackage {
 //    for all version
-    private void getglyph(XC_MethodHook.MethodHookParam param){
+    private void getglyph(MethodHookParam param){
         if (IngressGlyph.ready) {
             return;
         }
@@ -89,10 +90,17 @@ public class Xglyph implements IXposedHookLoadPackage {
             });
 //        ===================================================for all version====================================================
 
+
+        }catch (NoSuchMethodError e){
+
+        }catch (XposedHelpers.ClassNotFoundError e){
+
+        }
+        try {
             findAndHookConstructor("com.nianticproject.ingress.glyph.Glyph", loadPackageParam.classLoader, String.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    String oldglyph = (String) param.args[0].toString();
+                    String oldglyph = param.args[0].toString();
 //                // FIXME: 15/9/2 glyph "imperfect"
                     String tmptlyph = IngressGlyph.glyphSequence.get(0).toString();
                     if (tmptlyph.equals("khkjkgj")) {
@@ -111,10 +119,9 @@ public class Xglyph implements IXposedHookLoadPackage {
                     XposedBridge.log("mylog: delete the used glyph.");
                 }
             });
-        }catch (NoSuchMethodError e){
-
-        }catch (XposedHelpers.ClassNotFoundError e){
+        }catch (NoSuchMethodError error){
 
         }
+
     }
 }

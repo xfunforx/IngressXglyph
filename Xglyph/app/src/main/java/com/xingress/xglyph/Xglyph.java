@@ -1,7 +1,7 @@
 package com.xingress.xglyph;
 
 /**
- * Created by xfunx on 15/8/25.
+ * Created by xfunforx on 15/8/25.
  */
 import java.util.List;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -52,65 +52,69 @@ public class Xglyph implements IXposedHookLoadPackage {
 //        });// FIXME: 15/8/31 for some xposed native hook fail
 //
 
-
+        try {
 
 //        ==========================================for version 1.83.1===========================================
-        final Class<?> aqw = XposedHelpers.findClass("o.aqw", loadPackageParam.classLoader);
-        findAndHookMethod("o.aqw", loadPackageParam.classLoader, "ʿ", aqw, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                getglyph(param);
-            }
-        });
-        final Class<?> cxh  = XposedHelpers.findClass("o.cxh",loadPackageParam.classLoader);
-        findAndHookMethod("o.btm$ˋ", loadPackageParam.classLoader, "ˊ", cxh, Object.class, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+            final Class<?> aqw = XposedHelpers.findClass("o.aqw", loadPackageParam.classLoader);
+            findAndHookMethod("o.aqw", loadPackageParam.classLoader, "ʿ", aqw, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    getglyph(param);
+                }
+            });
+            final Class<?> cxh = XposedHelpers.findClass("o.cxh", loadPackageParam.classLoader);
+            findAndHookMethod("o.btm$ˋ", loadPackageParam.classLoader, "ˊ", cxh, Object.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 //              change ready for next hack.
-                IngressGlyph.ready = false;
-            }
-        });//// FIXME: 15/9/28 ingress 1.83.1
+                    IngressGlyph.ready = false;
+                }
+            });//// FIXME: 15/9/28 ingress 1.83.1
 //        =======================================================================================================
 //        ==========================================for version <1.83.1==========================================
-        final Class<?> aqv = XposedHelpers.findClass("o.aqv", loadPackageParam.classLoader);
-        findAndHookMethod("o.aqv", loadPackageParam.classLoader, "ʿ", aqv, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                getglyph(param);
-            }
-        });
-        final Class<?> cwa  = XposedHelpers.findClass("o.cwa", loadPackageParam.classLoader);
-        findAndHookMethod("o.bta$ˋ", loadPackageParam.classLoader, "ˊ", cwa, Object.class, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+            final Class<?> aqv = XposedHelpers.findClass("o.aqv", loadPackageParam.classLoader);
+            findAndHookMethod("o.aqv", loadPackageParam.classLoader, "ʿ", aqv, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    getglyph(param);
+                }
+            });
+            final Class<?> cwa = XposedHelpers.findClass("o.cwa", loadPackageParam.classLoader);
+            findAndHookMethod("o.bta$ˋ", loadPackageParam.classLoader, "ˊ", cwa, Object.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 //              change reay for next hack.
-                IngressGlyph.ready = false;
-            }
-        });
-//        =======================================================================================================
-//        for all version
-        findAndHookConstructor("com.nianticproject.ingress.glyph.Glyph", loadPackageParam.classLoader, String.class, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                String oldglyph = (String) param.args[0].toString();
+                    IngressGlyph.ready = false;
+                }
+            });
+//        ===================================================for all version====================================================
+
+            findAndHookConstructor("com.nianticproject.ingress.glyph.Glyph", loadPackageParam.classLoader, String.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    String oldglyph = (String) param.args[0].toString();
 //                // FIXME: 15/9/2 glyph "imperfect"
-                String tmptlyph = IngressGlyph.glyphSequence.get(0).toString();
-                if (tmptlyph.equals("khkjkgj")) {
-                    tmptlyph = "kgjkhj";
+                    String tmptlyph = IngressGlyph.glyphSequence.get(0).toString();
+                    if (tmptlyph.equals("khkjkgj")) {
+                        tmptlyph = "kgjkhj";
+                    }
+                    if (tmptlyph.equals("jgkjkhk")) {
+                        tmptlyph = "jhkjgk";
+                    }
+                    param.args[0] = tmptlyph;
+                    XposedBridge.log("mylog: set the glyph :>>" + oldglyph + "== to new glyph==" + tmptlyph);
                 }
-                if (tmptlyph.equals("jgkjkhk")) {
-                    tmptlyph = "jhkjgk";
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    IngressGlyph.glyphSequence.remove(0);
+                    XposedBridge.log("mylog: delete the used glyph.");
                 }
-                param.args[0] = tmptlyph;
-                XposedBridge.log("mylog: set the glyph :>>" + oldglyph + "== to new glyph==" + tmptlyph);
-            }
+            });
+        }catch (NoSuchMethodError e){
 
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                IngressGlyph.glyphSequence.remove(0);
-                XposedBridge.log("mylog: delete the used glyph.");
-            }
-        });
+        }catch (XposedHelpers.ClassNotFoundError e){
 
+        }
     }
 }

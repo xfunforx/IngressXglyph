@@ -8,8 +8,8 @@ android {
         applicationId "com.xingress.xglyph"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 7
-        versionName "1.6"
+        versionCode 8
+        versionName "2.0"
     }
     buildTypes {
         release {

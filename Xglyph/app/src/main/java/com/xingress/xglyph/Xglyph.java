@@ -66,7 +66,7 @@ public class Xglyph implements IXposedHookLoadPackage {
         findAndHookMethod("o.btm$ˋ", loadPackageParam.classLoader, "ˊ", cxh, Object.class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-//              change reay for next hack.
+//              change ready for next hack.
                 IngressGlyph.ready = false;
             }
         });//// FIXME: 15/9/28 ingress 1.83.1

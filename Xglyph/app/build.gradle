@@ -8,8 +8,8 @@ android {
         applicationId "com.xingress.xglyph"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 6
-        versionName "1.5"
+        versionCode 7
+        versionName "1.6"
     }
     buildTypes {
         release {
@@ -21,6 +21,5 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.2.0'
     provided files('lib/XposedBridgeApi-20150213.jar')
 }

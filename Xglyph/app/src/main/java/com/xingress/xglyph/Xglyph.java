@@ -72,6 +72,16 @@ public class Xglyph implements IXposedHookLoadPackage {
                 }
             });//// FIXME: 15/9/28 ingress 1.83.1
 //        =======================================================================================================
+
+
+
+        }catch (NoSuchMethodError e){
+
+        }catch (XposedHelpers.ClassNotFoundError e){
+
+        }
+
+        try{
 //        ==========================================for version <1.83.1==========================================
             final Class<?> aqv = XposedHelpers.findClass("o.aqv", loadPackageParam.classLoader);
             findAndHookMethod("o.aqv", loadPackageParam.classLoader, "ʿ", aqv, new XC_MethodHook() {
@@ -88,14 +98,13 @@ public class Xglyph implements IXposedHookLoadPackage {
                     IngressGlyph.ready = false;
                 }
             });
-//        ===================================================for all version====================================================
-
-
         }catch (NoSuchMethodError e){
 
         }catch (XposedHelpers.ClassNotFoundError e){
 
         }
+//        ===================================================for all version====================================================
+
         try {
             findAndHookConstructor("com.nianticproject.ingress.glyph.Glyph", loadPackageParam.classLoader, String.class, new XC_MethodHook() {
                 @Override

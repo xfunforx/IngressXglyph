@@ -63,7 +63,7 @@ public class Xglyph implements IXposedHookLoadPackage {
                 }
             });
             final Class<?> cyh = XposedHelpers.findClass("o.cyh", loadPackageParam.classLoader);
-            findAndHookMethod("o/bud$ˋ", loadPackageParam.classLoader, "ˊ", cyh, Object.class, new XC_MethodHook() {
+            findAndHookMethod("o.bud$ˋ", loadPackageParam.classLoader, "ˊ", cyh, Object.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 //              change ready for next hack.

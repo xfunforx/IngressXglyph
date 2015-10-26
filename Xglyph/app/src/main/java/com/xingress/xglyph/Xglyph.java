@@ -52,7 +52,33 @@ public class Xglyph implements IXposedHookLoadPackage {
 //            }
 //        });// FIXME: 15/8/31 for some xposed native hook fail
 //
+        try {
 
+//        ==========================================for version 1.85.1===========================================
+            final Class<?> aqz = XposedHelpers.findClass("o.aqz", loadPackageParam.classLoader);
+            findAndHookMethod("o.aqz", loadPackageParam.classLoader, "ʿ", aqz, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    getglyph(param);
+                }
+            });
+            final Class<?> cyh = XposedHelpers.findClass("o.cyh", loadPackageParam.classLoader);
+            findAndHookMethod("o/bud$ˋ", loadPackageParam.classLoader, "ˊ", cyh, Object.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+//              change ready for next hack.
+                    IngressGlyph.ready = false;
+                }
+            });//// // FIXME: 15/10/26 1.85.1
+//        =======================================================================================================
+
+
+
+        }catch (NoSuchMethodError e){
+
+        }catch (XposedHelpers.ClassNotFoundError e){
+
+        }
         try {
 
 //        ==========================================for version 1.83.1===========================================

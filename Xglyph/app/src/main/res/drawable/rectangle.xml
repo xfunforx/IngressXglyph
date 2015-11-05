@@ -6,7 +6,7 @@
 		android:radius="16dp" /> -->
 
 	<stroke
-		android:color="@android:color/black"
+		android:color="@android:color/white"
 		android:width="@dimen/rectangle_width"/>
 
 	<padding

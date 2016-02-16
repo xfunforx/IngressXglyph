@@ -9,7 +9,6 @@ import java.util.Random;
  * Patched by Cypher on 15/10/28.
  */
 public class IngressGlyph {
-	public static boolean ready = false;
 	public static List<String> glyphSequence = new ArrayList<>();
 
 	private static Double[] pub = {

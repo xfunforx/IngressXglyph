@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-	<string name="app_name">IngressXglyph</string>
+	<string name="app_name">Xglyph</string>
+	<string name="activate_button">Activate</string>
+	<string name="inrange_button">Always In Range</string>
 	<string name="xlog">Debug Log (Xposed)</string>
 	<string name="description">Perfect Ingress Glyph Hacking: Catch incoming Glyphs and replace outgoing with them</string>
-    <string name="donate">If you like my work.\nPlease donate me. Thanks.  </string>
+	<string name="donate">If you like my work.\nPlease donate me. Thanks.</string>
 	<string name="thanks">Thanks to : Cypher , San Atear</string>
 </resources>

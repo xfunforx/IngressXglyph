@@ -2,10 +2,28 @@
 
 <resources>
 	<string name="app_name">Xglyph</string>
-	<string name="activate_button">Activate</string>
-	<string name="inrange_button">Always In Range</string>
-	<string name="xlog">Debug Log (Xposed)</string>
 	<string name="description">Perfect Ingress Glyph Hacking: Catch incoming Glyphs and replace outgoing with them</string>
-	<string name="donate">If you like my work.\nPlease donate me. Thanks.</string>
+
+	<string name="switch_activate">Activate</string>
+	<string name="cb_debugLog">Debug Log (Xposed)</string>
+	<string name="cb_replaceGlyphs">"Replace Glyphs"</string>
+	<string name="cb_normalHack">"Normal Hack"</string>
+	<string name="cb_glyphHack">"Glyph Hack"</string>
+	<string name="rb_key">"Key"</string>
+	<string name="rb_noKey">"No Key"</string>
+	<string name="button_description">Description</string>
+	<string name="button_close">Close</string>
+
+	<string name="description1header">Normal Hack Key</string>
+	<string name="description2header">Normal Hack No Key</string>
+	<string name="description3header">Glyph Hack Key</string>
+	<string name="description4header">Glyph Hack No Key</string>
+	<string name="description1">Hack a key, even when using the Hack No Key option in the circle menu. Of course you can only get a key if you don\'t already have one.</string>
+	<string name="description2">Hack no key, even when using the Hack option in the circle menu or the Hack button in the portal dialog.</string>
+	<string name="description3">Automatically send a \'more\' glyph, even when you don\'t touch the command glyph or draw bullshit.</string>
+	<string name="description4">Automatically send a \'less\' glyph, even when you don\'t touch the command glyph or draw bullshit.</string>
+	<string name="description5">If you draw a correct \'more\' or \'less\' command glyph, it overrides the Glyph Hack configuration.</string>
+
+	<string name="donate">If you like my work,\nplease donate me.\nThanks.</string>
 	<string name="thanks">Thanks to : Cypher , San Atear</string>
 </resources>

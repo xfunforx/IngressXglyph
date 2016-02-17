@@ -1,15 +1,23 @@
 package com.xingress.xglyph;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.findAndHookConstructor;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
+import static de.robv.android.xposed.XposedHelpers.findField;
+import static de.robv.android.xposed.XposedHelpers.getLongField;
+import static de.robv.android.xposed.XposedHelpers.newInstance;
 
 /**
  * Created by xfunx on 15/8/25.
@@ -29,72 +37,222 @@ public class Xglyph implements IXposedHookLoadPackage {
 	}
 
 	@Override
-	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
+	public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
 		if (!lpparam.packageName.equals("com.nianticproject.ingress")) {
 			return;
 		}
 
 		debugLog("Ingress loaded");
 
-		Class<?> glyphClass = findClass("com.nianticproject.ingress.glyph.Glyph", lpparam.classLoader);
-		Class<?> turingClass = findClass("com.nianticproject.ingress.common.utility.Turing", lpparam.classLoader);
+		pref.reload();
 
-		try {
-			findAndHookConstructor(glyphClass, String.class, new XC_MethodHook() {
-				@Override
-				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					pref.reload();
+		if (pref.getBoolean(MainActivity.ACTIVATE, false)) {
+			final String portalHackingParamsClassName = "com.nianticproject.ingress.shared.rpc.PortalHackingParams";
+			final String userInputGlyphSequenceClassName = "com.nianticproject.ingress.glyph.UserInputGlyphSequence";
+			final String glyphClassName = "com.nianticproject.ingress.glyph.Glyph";
+			final String turingClassName = "com.nianticproject.ingress.common.utility.Turing";
+			final Class<?> portalHackingParamsClass;
+			final Class<?> userInputGlyphSequenceClass;
+			final Class<?> glyphClass;
+			final Class<?> turingClass;
 
-					if (pref.getBoolean(MainActivity.ACTIVATE, true)) {
-						String oldglyph = param.args[0].toString();
-						// FIXME: 15/9/2 glyph "imperfect"
-						String tmpglyph = IngressGlyph.glyphSequence.remove(0);
+			try {
+				portalHackingParamsClass = findClass(portalHackingParamsClassName, lpparam.classLoader);
+			} catch (XposedHelpers.ClassNotFoundError e) {
+				debugLog(portalHackingParamsClassName + ": ClassNotFoundError");
+				return;
+			}
 
-						if (tmpglyph.equals("khkjkgj")) {
-							tmpglyph = "kgjkhj";
-						}
+			try {
+				userInputGlyphSequenceClass = findClass(userInputGlyphSequenceClassName, lpparam.classLoader);
+			} catch (XposedHelpers.ClassNotFoundError e) {
+				debugLog(userInputGlyphSequenceClassName + ": ClassNotFoundError");
+				return;
+			}
 
-						if (tmpglyph.equals("jgkjkhk")) {
-							tmpglyph = "jhkjgk";
-						}
+			try {
+				glyphClass = findClass(glyphClassName, lpparam.classLoader);
+			} catch (XposedHelpers.ClassNotFoundError e) {
+				debugLog(glyphClassName + ": ClassNotFoundError");
+				return;
+			}
 
-						param.args[0] = tmpglyph;
+			try {
+				turingClass = findClass(turingClassName, lpparam.classLoader);
+			} catch (XposedHelpers.ClassNotFoundError e) {
+				debugLog(turingClassName + ": ClassNotFoundError");
+				return;
+			}
 
-						debugLog("replaced glyph input '" + oldglyph + "' with new glyph '" + tmpglyph + "'");
-					} else {
-						debugLog("deactivated, nothing replaced");
+			try {
+				findAndHookConstructor(portalHackingParamsClass, new XC_MethodHook() {
+					@Override
+					protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+						debugLog("PortalHackingParams: default constructor called");
 					}
-				}
-			});
-		} catch (NoSuchMethodError error) {
-			debugLog("Glyph: NoSuchMethodError");
-		}
+				});
 
-		try {
-			findAndHookMethod(turingClass, "l", new XC_MethodHook() {
-				@Override
-				protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-					IngressGlyph.glyphSequence.clear();
-				}
-			});
-		} catch (NoSuchMethodError error) {
-			debugLog("Turing: NoSuchMethodError");
-		}
+				findAndHookConstructor(portalHackingParamsClass, String.class, boolean.class, boolean.class, new XC_MethodHook() {
+					@Override
+					protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+						debugLog("PortalHackingParams: constructor with (String, boolean, boolean) called");
 
-		try {
-			findAndHookMethod(turingClass, "g", String.class, new XC_MethodHook() {
-				@Override
-				protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-					debugLog("begin Calculate glyph");
-					float[] result = (float[]) param.getResult();
-					String glyph = IngressGlyph.getIngressGlyph(result);
-					debugLog("glyph: " + glyph);
-					IngressGlyph.glyphSequence.add(glyph);
-					debugLog("glyphSequence.size(): " + IngressGlyph.glyphSequence.size());
-				}
-			});
-		} catch (NoSuchMethodError error) {
-			debugLog("Turing: NoSuchMethodError");
+						String arg0 = (String) param.args[0];
+						boolean glyphGameRequested = (boolean) param.args[1];
+						boolean hackNoKey = (boolean) param.args[2];
+
+						debugLog("arg0 = " + arg0 + ", glyphGameRequested = " + glyphGameRequested + ", hackNoKey = " + hackNoKey);
+
+						if (!glyphGameRequested) {
+							pref.reload();
+
+							if (pref.getBoolean(MainActivity.NORMALHACK, false)) {
+								if (pref.getBoolean(MainActivity.NORMALHACKKEY, false)) {
+									param.args[2] = false;
+									debugLog("Normal Hack key request set");
+								} else if (!pref.getBoolean(MainActivity.NORMALHACKKEY, true)) {
+									param.args[2] = true;
+									debugLog("Normal Hack no key request set");
+								}
+							}
+						}
+					}
+				});
+
+				findAndHookConstructor(portalHackingParamsClass, String.class, userInputGlyphSequenceClass, userInputGlyphSequenceClass, new XC_MethodHook() {
+					@Override
+					protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+						debugLog("PortalHackingParams: constructor with (String, UserInputGlyphSequence, UserInputGlyphSequence) called");
+
+						String uigs1 = "null";
+						String uigs2 = "null";
+
+						if (param.args[1] != null) {
+							uigs1 = param.args[1].toString();
+
+							debugLog("original uigs1: " + uigs1);
+
+							pref.reload();
+
+							if (pref.getBoolean(MainActivity.REPLACEGLYPHS, false)) {
+								List<Object> glyphList = new ArrayList<>();
+
+								for (int i = 0; i < IngressGlyph.glyphSequence.size(); i++) {
+									glyphList.add(newInstance(glyphClass, IngressGlyph.glyphSequence.get(i)));
+								}
+
+								long inputTimeMs = getLongField(param.args[1], "inputTimeMs");
+
+								debugLog("inputTimeMs = " + inputTimeMs);
+
+								Object uigs = newInstance(userInputGlyphSequenceClass, glyphList, false, inputTimeMs);
+								uigs1 = uigs.toString();
+
+								param.args[1] = uigs;
+							}
+						} else {
+							debugLog("original uigs1: " + uigs1);
+						}
+
+						boolean hookKeyHack = true;
+
+						if (param.args[2] != null) {
+							uigs2 = param.args[2].toString();
+
+							debugLog("original uigs2: " + uigs2);
+
+							int glyphStart = uigs2.indexOf("glyphOrder=") + 11;
+							int glyphStop  = uigs2.indexOf("}]");
+
+							String glyphString = uigs2.substring(glyphStart, glyphStop);
+
+							debugLog("command glyph input: " + glyphString);
+
+							switch (glyphString) {
+								case "ikj":
+									hookKeyHack = false;
+									break;
+								case "jki":
+									hookKeyHack = false;
+									break;
+								case "gkh":
+									hookKeyHack = false;
+									break;
+								case "hkg":
+									hookKeyHack = false;
+									break;
+							}
+						} else {
+							debugLog("original uigs2: " + uigs2);
+						}
+
+						if (hookKeyHack) {
+							pref.reload();
+
+							if (pref.getBoolean(MainActivity.GLYPHHACK, false)) {
+								Object commandGlyph = null;
+
+								if (pref.getBoolean(MainActivity.GLYPHHACKKEY, false)) {
+									commandGlyph = newInstance(glyphClass, "ikj");
+									debugLog("Glyph Hack key request set");
+								} else if (!pref.getBoolean(MainActivity.GLYPHHACKKEY, true)) {
+									commandGlyph = newInstance(glyphClass, "gkh");
+									debugLog("Glyph Hack no key request set");
+								}
+
+								if (commandGlyph != null) {
+									List<Object> glyphList = new ArrayList<>();
+									glyphList.add(commandGlyph);
+
+									int min = 600;
+									int max = 700;
+									Random rand = new Random();
+									long randomNum = (long) rand.nextInt((max - min) + 1) + min;
+
+									Object uigs = newInstance(userInputGlyphSequenceClass, glyphList, false, randomNum);
+									uigs2 = uigs.toString();
+
+									param.args[2] = uigs;
+								}
+							}
+						}
+
+						debugLog("patched uigs1 = " + uigs1);
+						debugLog("patched uigs2 = " + uigs2);
+					}
+				});
+			} catch (NoSuchMethodError e) {
+				debugLog(portalHackingParamsClassName + ": constructor not found");
+			}
+
+			try {
+				findAndHookMethod(turingClass, "g", String.class, new XC_MethodHook() {
+					@Override
+					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+						debugLog("begin Calculate glyph");
+						float[] result = (float[]) param.getResult();
+						String glyph = IngressGlyph.getIngressGlyph(result);
+						debugLog("glyph: " + glyph);
+						IngressGlyph.glyphSequence.add(glyph);
+						debugLog("glyphSequence.size(): " + IngressGlyph.glyphSequence.size());
+					}
+				});
+			} catch (NoSuchMethodError error) {
+				debugLog("Turing: NoSuchMethodError");
+			}
+
+			try {
+				findAndHookMethod(turingClass, "l", new XC_MethodHook() {
+					@Override
+					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+						IngressGlyph.glyphSequence.clear();
+					}
+				});
+			} catch (NoSuchMethodError error) {
+				debugLog("Turing: NoSuchMethodError");
+			}
+		} else {
+			debugLog("IngressHackNoKey switched off");
 		}
 	}
 }

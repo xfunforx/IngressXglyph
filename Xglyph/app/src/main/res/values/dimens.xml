@@ -2,6 +2,7 @@
 
 <resources>
 	<dimen name="activity_margin">16dp</dimen>
+	<dimen name="dialog_margin">16dp</dimen>
 	<dimen name="rectangle_margin">16dp</dimen>
 	<dimen name="rectangle_width">1dp</dimen>
 </resources>

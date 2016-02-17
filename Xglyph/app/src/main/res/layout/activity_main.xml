@@ -28,8 +28,8 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:textAppearance="?android:attr/textAppearanceLarge"
-					android:text="@string/activate_button"
-					android:id="@+id/switch_Activate"
+					android:text="@string/switch_activate"
+					android:id="@+id/switch_activate"
 					android:checked="true" />
 
 			</LinearLayout>
@@ -45,7 +45,111 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:textAppearance="?android:attr/textAppearanceLarge"
-					android:text="@string/xlog"
+					android:text="@string/cb_replaceGlyphs"
+					android:id="@+id/cb_replaceGlyphs" />
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/activity_margin"
+				android:background="@drawable/rectangle">
+
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_weight="1">
+
+					<CheckBox
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceLarge"
+						android:text="@string/cb_normalHack"
+						android:id="@+id/cb_normalHack"/>
+
+					<RadioGroup
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_marginLeft="@dimen/activity_margin"
+						android:id="@+id/rg_normal">
+
+						<RadioButton
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:textAppearance="?android:attr/textAppearanceLarge"
+							android:text="@string/rb_key"
+							android:id="@+id/rb_normal_key"/>
+
+						<RadioButton
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textAppearance="?android:attr/textAppearanceLarge"
+							android:text="@string/rb_noKey"
+							android:id="@+id/rb_normal_noKey"/>
+					</RadioGroup>
+
+					<CheckBox
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:textAppearance="?android:attr/textAppearanceLarge"
+						android:layout_marginTop="@dimen/rectangle_margin"
+						android:text="@string/cb_glyphHack"
+						android:id="@+id/cb_glyphHack"/>
+
+					<RadioGroup
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:layout_marginLeft="@dimen/activity_margin"
+						android:id="@+id/rg_glyph">
+
+						<RadioButton
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:textAppearance="?android:attr/textAppearanceLarge"
+							android:text="@string/rb_key"
+							android:id="@+id/rb_glyph_key"/>
+
+						<RadioButton
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:textAppearance="?android:attr/textAppearanceLarge"
+							android:text="@string/rb_noKey"
+							android:id="@+id/rb_glyph_noKey"/>
+					</RadioGroup>
+
+				</LinearLayout>
+
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_weight="0">
+
+					<Button
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/button_description"
+						android:id="@+id/button_description"/>
+
+				</LinearLayout>
+
+			</LinearLayout>
+
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/activity_margin"
+				android:background="@drawable/rectangle">
+
+				<CheckBox
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceLarge"
+					android:text="@string/cb_debugLog"
 					android:id="@+id/cb_debugLog" />
 
 			</LinearLayout>
@@ -54,9 +158,9 @@
 				android:orientation="vertical"
 				android:layout_width="match_parent"
 				android:layout_marginTop="@dimen/activity_margin"
-				android:layout_marginBottom="@dimen/activity_margin"
 				android:layout_height="0dp"
-				android:layout_weight="1">
+				android:layout_weight="1"
+				android:background="@drawable/rectangle">
 
 				<LinearLayout
 					android:layout_width="wrap_content"
@@ -69,12 +173,17 @@
 						android:layout_height="match_parent"
 						android:src="@drawable/bit"
 						android:layout_gravity="center"
-						android:layout_marginLeft="@dimen/rectangle_margin"
-						android:layout_marginTop="@dimen/rectangle_margin"
-						android:layout_marginRight="@dimen/rectangle_margin"
-						android:layout_marginBottom="@dimen/rectangle_margin" />
+						android:layout_margin="@dimen/rectangle_margin" />
 
 				</LinearLayout>
+
+				<TextView
+					android:textAppearance="?android:attr/textAppearanceLarge"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="@dimen/activity_margin"
+					android:text="@string/donate"
+					android:layout_gravity="center" />
 
 			</LinearLayout>
 
@@ -82,14 +191,8 @@
 				android:orientation="vertical"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/activity_margin"
 				android:background="@drawable/rectangle">
-
-				<TextView
-					android:textAppearance="?android:attr/textAppearanceLarge"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/donate"
-					android:layout_gravity="center" />
 
 				<TextView
 					android:textAppearance="?android:attr/textAppearanceLarge"

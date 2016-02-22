@@ -245,66 +245,66 @@ public class Xglyph implements IXposedHookLoadPackage {
 			} catch (NoSuchMethodError error) {
 				debugLog("Turing.l: NoSuchMethodError");
 			}
+		} else {
+			debugLog("Xglyph switched off");
+		}
 
 // ============================== HideX ==============================
 
-			final String apmClassName = "android.app.ApplicationPackageManager";
-			final Class<?> apmClass;
+		final String apmClassName = "android.app.ApplicationPackageManager";
+		final Class<?> apmClass;
 
-			try {
-				apmClass = findClass(apmClassName, lpparam.classLoader);
-			} catch (XposedHelpers.ClassNotFoundError e) {
-				debugLog(apmClassName + ": ClassNotFoundError");
-				return;
-			}
+		try {
+			apmClass = findClass(apmClassName, lpparam.classLoader);
+		} catch (XposedHelpers.ClassNotFoundError e) {
+			debugLog(apmClassName + ": ClassNotFoundError");
+			return;
+		}
 
-			try {
-				findAndHookMethod(apmClass, "getInstalledApplications", int.class, new XC_MethodHook() {
-					@Override
-					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-						List installedApplications = (List) param.getResult();
+		try {
+			findAndHookMethod(apmClass, "getInstalledApplications", int.class, new XC_MethodHook() {
+				@Override
+				protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+					List installedApplications = (List) param.getResult();
 
-						ArrayList<ApplicationInfo> sortedOutApplications = new ArrayList<>();
+					ArrayList<ApplicationInfo> sortedOutApplications = new ArrayList<>();
 
-						for (Object application : installedApplications) {
-							ApplicationInfo applicationInfo = (ApplicationInfo) application;
+					for (Object application : installedApplications) {
+						ApplicationInfo applicationInfo = (ApplicationInfo) application;
 
-							if (!applicationInfo.packageName.contains(Xglyph.class.getPackage().getName())) {
-								sortedOutApplications.add(applicationInfo);
-							}
+						if (!applicationInfo.packageName.contains(Xglyph.class.getPackage().getName())) {
+							sortedOutApplications.add(applicationInfo);
 						}
-
-						param.setResult(sortedOutApplications);
 					}
-				});
-			} catch (NoSuchMethodError error) {
-				debugLog("ApplicationPackageManager.getInstalledApplications: NoSuchMethodError");
-			}
 
-			try {
-				findAndHookMethod(apmClass, "getInstalledPackages", int.class, new XC_MethodHook() {
-					@Override
-					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-						List installedPackages = (List) param.getResult();
+					param.setResult(sortedOutApplications);
+				}
+			});
+		} catch (NoSuchMethodError error) {
+			debugLog("ApplicationPackageManager.getInstalledApplications: NoSuchMethodError");
+		}
 
-						ArrayList<PackageInfo> sortedOutPackages = new ArrayList<>();
+		try {
+			findAndHookMethod(apmClass, "getInstalledPackages", int.class, new XC_MethodHook() {
+				@Override
+				protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+					List installedPackages = (List) param.getResult();
 
-						for (Object installedPackage : installedPackages) {
-							PackageInfo packageInfo = (PackageInfo) installedPackage;
+					ArrayList<PackageInfo> sortedOutPackages = new ArrayList<>();
 
-							if (!packageInfo.packageName.contains(Xglyph.class.getPackage().getName())) {
-								sortedOutPackages.add(packageInfo);
-							}
+					for (Object installedPackage : installedPackages) {
+						PackageInfo packageInfo = (PackageInfo) installedPackage;
+
+						if (!packageInfo.packageName.contains(Xglyph.class.getPackage().getName())) {
+							sortedOutPackages.add(packageInfo);
 						}
-
-						param.setResult(sortedOutPackages);
 					}
-				});
-			} catch (NoSuchMethodError error) {
-				debugLog("ApplicationPackageManager.getInstalledPackages: NoSuchMethodError");
-			}
-		} else {
-			debugLog("Xglyph switched off");
+
+					param.setResult(sortedOutPackages);
+				}
+			});
+		} catch (NoSuchMethodError error) {
+			debugLog("ApplicationPackageManager.getInstalledPackages: NoSuchMethodError");
 		}
 	}
 }

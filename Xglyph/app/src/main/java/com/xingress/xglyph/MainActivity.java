@@ -11,7 +11,6 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
-import android.widget.Toast;
 
 /**
  * Created by Cypher on 15/10/28.
@@ -28,19 +27,19 @@ public class MainActivity extends Activity {
 	public static final String GLYPHHACK = "Xglyph_GlyphHack";
 	public static final String GLYPHHACKKEY = "Xglyph_GlyphHackKey";
 
-	SharedPreferences pref;
-	Switch switch_activate;
-	CheckBox cb_replaceGlyphs;
-	CheckBox cb_debugLog;
-	CheckBox cb_normalHack;
-	CheckBox cb_glyphHack;
-	RadioGroup rg_normal;
-	RadioGroup rg_glyph;
-	RadioButton rb_normal_key;
-	RadioButton rb_normal_noKey;
-	RadioButton rb_glyph_key;
-	RadioButton rb_glyph_noKey;
-	Button button_description;
+	private SharedPreferences pref;
+	private Switch switch_activate;
+	private CheckBox cb_replaceGlyphs;
+	private CheckBox cb_debugLog;
+	private CheckBox cb_normalHack;
+	private CheckBox cb_glyphHack;
+	private RadioGroup rg_normal;
+	private RadioGroup rg_glyph;
+	private RadioButton rb_normal_key;
+	private RadioButton rb_normal_noKey;
+	private RadioButton rb_glyph_key;
+	private RadioButton rb_glyph_noKey;
+	private Button button_description;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,132 +67,19 @@ public class MainActivity extends Activity {
 
 		button_description = (Button) findViewById(R.id.button_description);
 
-		switch_activate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-				pref.edit().putBoolean(ACTIVATE, isChecked).apply();
-
-				String toast;
-
-				if (isChecked) {
-					toast = "Xglyph on";
-				} else {
-					toast = "Xglyph off";
-				}
-
-				Toast.makeText(getBaseContext(), toast, Toast.LENGTH_SHORT).show();
-			}
-		});
-
-		cb_replaceGlyphs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-				pref.edit().putBoolean(REPLACEGLYPHS, isChecked).apply();
-
-				String toast;
-
-				if (isChecked) {
-					toast = "Glyph replacement on";
-				} else {
-					toast = "Glyph replacement off";
-				}
-
-				Toast.makeText(getBaseContext(), toast, Toast.LENGTH_SHORT).show();
-			}
-		});
-
-		cb_debugLog.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-				pref.edit().putBoolean(DEBUGLOG, isChecked).apply();
-
-				String toast;
-
-				if (isChecked) {
-					toast = "Xposed debug log on";
-				} else {
-					toast = "Xposed debug log off";
-				}
-
-				Toast.makeText(getBaseContext(), toast, Toast.LENGTH_SHORT).show();
-			}
-		});
-
 		cb_normalHack.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				pref.edit().putBoolean(NORMALHACK, isChecked).apply();
-
 				rb_normal_key.setEnabled(isChecked);
 				rb_normal_noKey.setEnabled(isChecked);
-
-				String toast;
-
-				if (isChecked) {
-					toast = "Normal key hack on";
-				} else {
-					toast = "Normal key hack off";
-				}
-
-				Toast.makeText(getBaseContext(), toast, Toast.LENGTH_SHORT).show();
 			}
 		});
 
 		cb_glyphHack.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				pref.edit().putBoolean(GLYPHHACK, isChecked).apply();
-
 				rb_glyph_key.setEnabled(isChecked);
 				rb_glyph_noKey.setEnabled(isChecked);
-
-				String toast;
-
-				if (isChecked) {
-					toast = "Glyph key hack on";
-				} else {
-					toast = "Glyph key hack off";
-				}
-
-				Toast.makeText(getBaseContext(), toast, Toast.LENGTH_SHORT).show();
-			}
-		});
-
-		rg_normal.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(RadioGroup radioGroup, int i) {
-				String toast = "null";
-
-				if (i == R.id.rb_normal_key) {
-					pref.edit().putBoolean(NORMALHACKKEY, true).apply();
-
-					toast = "Always hack key";
-				} else if (i == R.id.rb_normal_noKey) {
-					pref.edit().putBoolean(NORMALHACKKEY, false).apply();
-
-					toast = "Never hack key";
-				}
-
-				Toast.makeText(getBaseContext(), toast, Toast.LENGTH_SHORT).show();
-			}
-		});
-
-		rg_glyph.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(RadioGroup radioGroup, int i) {
-				String toast = "null";
-
-				if (i == R.id.rb_glyph_key) {
-					pref.edit().putBoolean(GLYPHHACKKEY, true).apply();
-
-					toast = "Always hack key";
-				} else if (i == R.id.rb_glyph_noKey) {
-					pref.edit().putBoolean(GLYPHHACKKEY, false).apply();
-
-					toast = "Never hack key";
-				}
-
-				Toast.makeText(getBaseContext(), toast, Toast.LENGTH_SHORT).show();
 			}
 		});
 
@@ -215,6 +101,21 @@ public class MainActivity extends Activity {
 				});
 			}
 		});
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		switch_activate.setChecked(pref.getBoolean(ACTIVATE, false));
+		cb_debugLog.setChecked(pref.getBoolean(DEBUGLOG, false));
+		cb_replaceGlyphs.setChecked(pref.getBoolean(REPLACEGLYPHS, false));
+		cb_normalHack.setChecked(pref.getBoolean(NORMALHACK, false));
+		cb_glyphHack.setChecked(pref.getBoolean(GLYPHHACK, false));
+		rb_normal_key.setChecked(pref.getBoolean(NORMALHACKKEY, true));
+		rb_normal_noKey.setChecked(!pref.getBoolean(NORMALHACKKEY, true));
+		rb_glyph_key.setChecked(pref.getBoolean(GLYPHHACKKEY, true));
+		rb_glyph_noKey.setChecked(!pref.getBoolean(GLYPHHACKKEY, true));
 	}
 
 	@Override
@@ -242,20 +143,5 @@ public class MainActivity extends Activity {
 		} else if (i == R.id.rb_glyph_noKey) {
 			pref.edit().putBoolean(GLYPHHACKKEY, false).apply();
 		}
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		switch_activate.setChecked(pref.getBoolean(ACTIVATE, false));
-		cb_debugLog.setChecked(pref.getBoolean(DEBUGLOG, false));
-		cb_replaceGlyphs.setChecked(pref.getBoolean(REPLACEGLYPHS, false));
-		cb_normalHack.setChecked(pref.getBoolean(NORMALHACK, false));
-		cb_glyphHack.setChecked(pref.getBoolean(GLYPHHACK, false));
-		rb_normal_key.setChecked(pref.getBoolean(NORMALHACKKEY, true));
-		rb_normal_noKey.setChecked(!pref.getBoolean(NORMALHACKKEY, true));
-		rb_glyph_key.setChecked(pref.getBoolean(GLYPHHACKKEY, true));
-		rb_glyph_noKey.setChecked(!pref.getBoolean(GLYPHHACKKEY, true));
 	}
 }

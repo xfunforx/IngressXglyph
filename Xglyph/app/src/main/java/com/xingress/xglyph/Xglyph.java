@@ -1,6 +1,8 @@
 package com.xingress.xglyph;
 
-import java.lang.reflect.Field;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,7 +17,6 @@ import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.findAndHookConstructor;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
-import static de.robv.android.xposed.XposedHelpers.findField;
 import static de.robv.android.xposed.XposedHelpers.getLongField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
 
@@ -85,13 +86,6 @@ public class Xglyph implements IXposedHookLoadPackage {
 			}
 
 			try {
-				findAndHookConstructor(portalHackingParamsClass, new XC_MethodHook() {
-					@Override
-					protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-						debugLog("PortalHackingParams: default constructor called");
-					}
-				});
-
 				findAndHookConstructor(portalHackingParamsClass, String.class, boolean.class, boolean.class, new XC_MethodHook() {
 					@Override
 					protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -238,7 +232,7 @@ public class Xglyph implements IXposedHookLoadPackage {
 					}
 				});
 			} catch (NoSuchMethodError error) {
-				debugLog("Turing: NoSuchMethodError");
+				debugLog("Turing.g: NoSuchMethodError");
 			}
 
 			try {
@@ -249,10 +243,68 @@ public class Xglyph implements IXposedHookLoadPackage {
 					}
 				});
 			} catch (NoSuchMethodError error) {
-				debugLog("Turing: NoSuchMethodError");
+				debugLog("Turing.l: NoSuchMethodError");
+			}
+
+// ============================== HideX ==============================
+
+			final String apmClassName = "android.app.ApplicationPackageManager";
+			final Class<?> apmClass;
+
+			try {
+				apmClass = findClass(apmClassName, lpparam.classLoader);
+			} catch (XposedHelpers.ClassNotFoundError e) {
+				debugLog(apmClassName + ": ClassNotFoundError");
+				return;
+			}
+
+			try {
+				findAndHookMethod(apmClass, "getInstalledApplications", int.class, new XC_MethodHook() {
+					@Override
+					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+						List installedApplications = (List) param.getResult();
+
+						ArrayList<ApplicationInfo> sortedOutApplications = new ArrayList<>();
+
+						for (Object application : installedApplications) {
+							ApplicationInfo applicationInfo = (ApplicationInfo) application;
+
+							if (!applicationInfo.packageName.contains(Xglyph.class.getPackage().getName())) {
+								sortedOutApplications.add(applicationInfo);
+							}
+						}
+
+						param.setResult(sortedOutApplications);
+					}
+				});
+			} catch (NoSuchMethodError error) {
+				debugLog("ApplicationPackageManager.getInstalledApplications: NoSuchMethodError");
+			}
+
+			try {
+				findAndHookMethod(apmClass, "getInstalledPackages", int.class, new XC_MethodHook() {
+					@Override
+					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+						List installedPackages = (List) param.getResult();
+
+						ArrayList<PackageInfo> sortedOutPackages = new ArrayList<>();
+
+						for (Object installedPackage : installedPackages) {
+							PackageInfo packageInfo = (PackageInfo) installedPackage;
+
+							if (!packageInfo.packageName.contains(Xglyph.class.getPackage().getName())) {
+								sortedOutPackages.add(packageInfo);
+							}
+						}
+
+						param.setResult(sortedOutPackages);
+					}
+				});
+			} catch (NoSuchMethodError error) {
+				debugLog("ApplicationPackageManager.getInstalledPackages: NoSuchMethodError");
 			}
 		} else {
-			debugLog("IngressHackNoKey switched off");
+			debugLog("Xglyph switched off");
 		}
 	}
 }

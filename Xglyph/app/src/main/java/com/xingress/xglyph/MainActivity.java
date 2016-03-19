@@ -11,12 +11,13 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.Toast;
 
 /**
  * Created by Cypher on 15/10/28.
  */
 public class MainActivity extends Activity {
-	private static final String TAG = MainActivity.class.getSimpleName();
+	private static final String TAG = Xglyph.class.getSimpleName();
 
 	public static final String PREF = "Xglyph_Pref";
 	public static final String ACTIVATE = "Xglyph_Activate";
@@ -40,6 +41,7 @@ public class MainActivity extends Activity {
 	private RadioButton rb_glyph_key;
 	private RadioButton rb_glyph_noKey;
 	private Button button_description;
+	private boolean showToast;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,17 @@ public class MainActivity extends Activity {
 		rb_glyph_noKey.setEnabled(false);
 
 		button_description = (Button) findViewById(R.id.button_description);
+
+		showToast = false;
+
+		switch_activate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+				if (showToast) {
+					Toast.makeText(getApplicationContext(), "Ingress restart required", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 
 		cb_normalHack.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
@@ -107,6 +120,8 @@ public class MainActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 
+		showToast = false;
+
 		switch_activate.setChecked(pref.getBoolean(ACTIVATE, false));
 		cb_debugLog.setChecked(pref.getBoolean(DEBUGLOG, false));
 		cb_replaceGlyphs.setChecked(pref.getBoolean(REPLACEGLYPHS, false));
@@ -116,11 +131,15 @@ public class MainActivity extends Activity {
 		rb_normal_noKey.setChecked(!pref.getBoolean(NORMALHACKKEY, true));
 		rb_glyph_key.setChecked(pref.getBoolean(GLYPHHACKKEY, true));
 		rb_glyph_noKey.setChecked(!pref.getBoolean(GLYPHHACKKEY, true));
+
+		showToast = true;
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
+
+		showToast = false;
 
 		pref.edit().putBoolean(ACTIVATE, switch_activate.isChecked()).apply();
 		pref.edit().putBoolean(DEBUGLOG, cb_debugLog.isChecked()).apply();
@@ -143,5 +162,7 @@ public class MainActivity extends Activity {
 		} else if (i == R.id.rb_glyph_noKey) {
 			pref.edit().putBoolean(GLYPHHACKKEY, false).apply();
 		}
+
+		showToast = true;
 	}
 }

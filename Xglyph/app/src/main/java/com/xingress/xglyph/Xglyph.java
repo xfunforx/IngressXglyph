@@ -101,7 +101,7 @@ public class Xglyph implements IXposedHookLoadPackage {
 							pref.reload();
 
 							if (pref.getBoolean(MainActivity.NORMALHACK, false)) {
-								if (pref.getBoolean(MainActivity.NORMALHACKKEY, false)) {
+								if (pref.getBoolean(MainActivity.NORMALHACKKEY, true)) {
 									param.args[2] = false;
 									debugLog("Normal Hack key request set");
 								} else if (!pref.getBoolean(MainActivity.NORMALHACKKEY, true)) {
@@ -186,7 +186,7 @@ public class Xglyph implements IXposedHookLoadPackage {
 							if (pref.getBoolean(MainActivity.GLYPHHACK, false)) {
 								Object commandGlyph = null;
 
-								if (pref.getBoolean(MainActivity.GLYPHHACKKEY, false)) {
+								if (pref.getBoolean(MainActivity.GLYPHHACKKEY, true)) {
 									commandGlyph = newInstance(glyphClass, "ikj");
 									debugLog("Glyph Hack key request set");
 								} else if (!pref.getBoolean(MainActivity.GLYPHHACKKEY, true)) {
@@ -198,8 +198,8 @@ public class Xglyph implements IXposedHookLoadPackage {
 									List<Object> glyphList = new ArrayList<>();
 									glyphList.add(commandGlyph);
 
-									int min = 600;
-									int max = 700;
+									int min = 400;
+									int max = 500;
 									Random rand = new Random();
 									long randomNum = (long) rand.nextInt((max - min) + 1) + min;
 

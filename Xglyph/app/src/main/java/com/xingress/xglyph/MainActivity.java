@@ -17,7 +17,7 @@ import android.widget.Toast;
  * Created by Cypher on 15/10/28.
  */
 public class MainActivity extends Activity {
-	private static final String TAG = Xglyph.class.getSimpleName();
+	private static final String TAG = "Xglyph";
 
 	public static final String PREF = "Xglyph_Pref";
 	public static final String ACTIVATE = "Xglyph_Activate";

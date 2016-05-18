@@ -6,7 +6,7 @@
 
 	<string name="switch_activate">Activate</string>
 	<string name="cb_debugLog">Debug Log (Xposed)</string>
-	<string name="cb_replaceGlyphs">"Replace Glyphs"</string>
+	<string name="cb_replaceGlyphs">"Correct Glyphs"</string>
 	<string name="cb_normalHack">"Normal Hack"</string>
 	<string name="cb_glyphHack">"Glyph Hack"</string>
 	<string name="rb_key">"Key"</string>

@@ -224,10 +224,21 @@ public class Xglyph implements IXposedHookLoadPackage {
 					@Override
 					protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 						debugLog("begin Calculate glyph");
+
 						float[] result = (float[]) param.getResult();
 						String glyph = IngressGlyph.getIngressGlyph(result);
+
+						// correct glyph "imperfect"
+						if (glyph.equals("khkjkgj")) {
+							glyph = "kgjkhj";
+						} else if (glyph.equals("jgkjkhk")) {
+							glyph = "jhkjgk";
+						}
+
 						debugLog("glyph: " + glyph);
+
 						IngressGlyph.glyphSequence.add(glyph);
+
 						debugLog("glyphSequence.size(): " + IngressGlyph.glyphSequence.size());
 					}
 				});

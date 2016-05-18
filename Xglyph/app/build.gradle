@@ -2,17 +2,17 @@ apply plugin: 'com.android.application'
 
 android {
 	compileSdkVersion 23
-	buildToolsVersion "23.0.2"
+	buildToolsVersion "23.0.3"
 
 	defaultConfig {
 		applicationId "com.xingress.xglyph"
 		minSdkVersion 15
 		targetSdkVersion 23
-		versionCode 121
-		versionName "12.1"
+		versionCode 122
+		versionName "12.2"
 	}
 }
 
 dependencies {
-	provided files('lib/XposedBridgeApi-20150213.jar')
+	provided 'de.robv.android.xposed:api:82'
 }

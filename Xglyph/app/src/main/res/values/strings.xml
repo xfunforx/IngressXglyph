@@ -9,8 +9,11 @@
 	<string name="cb_replaceGlyphs">"Correct Glyphs"</string>
 	<string name="cb_normalHack">"Normal Hack"</string>
 	<string name="cb_glyphHack">"Glyph Hack"</string>
+	<string name="cb_glyphHackSpeed">"Glyph Hack Speed"</string>
 	<string name="rb_key">"Key"</string>
 	<string name="rb_noKey">"No Key"</string>
+	<string name="rb_fast">"Fast"</string>
+	<string name="rb_slow">"Slow"</string>
 	<string name="button_description">Description</string>
 	<string name="button_close">Close</string>
 
@@ -18,12 +21,16 @@
 	<string name="description2header">Normal Hack No Key</string>
 	<string name="description3header">Glyph Hack Key</string>
 	<string name="description4header">Glyph Hack No Key</string>
+	<string name="description5header">Glyph Hack Speed Fast</string>
+	<string name="description6header">Glyph Hack Speed Slow</string>
 	<string name="description1">Hack a key, even when using the Hack No Key option in the circle menu. Of course you can only get a key if you don\'t already have one.</string>
 	<string name="description2">Hack no key, even when using the Hack option in the circle menu or the Hack button in the portal dialog.</string>
-	<string name="description3">Automatically send a \'more\' glyph, even when you don\'t touch the command glyph or draw bullshit.</string>
-	<string name="description4">Automatically send a \'less\' glyph, even when you don\'t touch the command glyph or draw bullshit.</string>
-	<string name="description5">If you draw a correct \'more\' or \'less\' command glyph, it overrides the Glyph Hack configuration.</string>
+	<string name="description3">Automatically send a \'more\' glyph to request a key, even when you don\'t touch the command glyph or draw bullshit.</string>
+	<string name="description4">Automatically send a \'less\' glyph to request no key, even when you don\'t touch the command glyph or draw bullshit.</string>
+	<string name="description5">Automatically send a \'complex\' glyph to speed up the glyph sequence prompt. You have to touch the command glyph interface to trigger this!</string>
+	<string name="description6">Automatically send a \'simple\' glyph to slow down the glyph sequence prompt. You have to touch the command glyph interface to trigger this!</string>
+	<string name="description7">If you draw a correct \'more\' or \'less\' command glyph, it overrides the Glyph Hack Key configuration. And if you draw a correct \'complex\' or \'simple\' command glyph, it overrides the Glyph Hack Speed configuration. Key and speed overriding are also combinable.</string>
 
 	<string name="donate">If you like my work,\nplease donate me.\nThanks.</string>
-	<string name="thanks">Thanks to : Cypher , San Atear</string>
+	<string name="credits">Xglyph v%1$s, %2$s\nDeveloped by xfunforx and Cypher\nThanks to San Atear</string>
 </resources>

@@ -83,11 +83,41 @@
 					android:text="@string/description4"/>
 
 				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="@dimen/dialog_margin"
+					android:layout_marginLeft="@dimen/dialog_margin"
+					android:textAppearance="?android:attr/textAppearanceLarge"
+					android:text="@string/description5header"
+					android:textStyle="bold"/>
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceLarge"
+					android:text="@string/description5"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="@dimen/dialog_margin"
+					android:layout_marginLeft="@dimen/dialog_margin"
+					android:textAppearance="?android:attr/textAppearanceLarge"
+					android:text="@string/description6header"
+					android:textStyle="bold"/>
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textAppearance="?android:attr/textAppearanceLarge"
+					android:text="@string/description6"/>
+
+				<TextView
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginTop="@dimen/dialog_margin"
 					android:textAppearance="?android:attr/textAppearanceLarge"
-					android:text="@string/description5"/>
+					android:text="@string/description7"/>
 
 			</LinearLayout>
 
@@ -99,7 +129,8 @@
 		android:orientation="vertical"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_weight="0">
+		android:layout_weight="0"
+		android:layout_marginTop="@dimen/dialog_margin">
 
 		<Button
 			android:layout_width="wrap_content"

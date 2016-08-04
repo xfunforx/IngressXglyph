@@ -23,7 +23,7 @@ import static de.robv.android.xposed.XposedHelpers.newInstance;
 /**
  * Created by xfunx on 15/8/25.
  * Patched by Cypher on 15/10/28.
- *   last updated on 16/05/24.
+ *   last updated on 16/08/04.
  */
 public class Xglyph implements IXposedHookLoadPackage {
 	private static final String TAG = Xglyph.class.getSimpleName() + ": ";
@@ -66,8 +66,9 @@ public class Xglyph implements IXposedHookLoadPackage {
 			final String turingClassName = "com.nianticproject.ingress.common.utility.Turing";
 			final String turingClassMethodName1 = "g";
 			final String turingClassMethodName2 = "l";
-			final String mqClassName = "o.mq"; // FIXME: this might change for new versions of the Ingress client
-			final String mqClassMethodName = "ˊ"; // FIXME: this might change for new versions of the Ingress client
+			//final String mqClassName = "o.mq"; // FIXME: this class name is for Ingress v1.99.1 - v1.104.1
+			final String mqClassName = "o.ms"; // FIXME: this class name is for Ingress v1.105.1 and maybe future versions
+			final String mqClassMethodName = "ˊ"; // FIXME: this method name is for Ingress v1.99.1 - v1.105.1 and maybe future versions
 
 			final Class<?> portalHackingParamsClass;
 			final Class<?> userInputGlyphSequenceClass;
